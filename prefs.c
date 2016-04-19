@@ -1,4 +1,7 @@
 #include "prefs.h"
+#include <unistd.h>
+#include <sys/types.h>
+
 
 FILE *PrefOpenPreferenceFile(SD_UINT8 *preferenceFileName)
 {
@@ -33,7 +36,6 @@ char *PrefGetProperty(FILE *preferenceFile, char *key)
 	char    *token  = NULL;
 	char    rBuffer[MAX_FILE_RW_BUFFER_SIZE];
 	int     isKeyFound = 0;
-	int openLocal = 0;
 
 	fseek(preferenceFile, 0, SEEK_SET);
 
@@ -156,13 +158,6 @@ int    PrefSetProperty(FILE *preferenceFile, char *key, char *value)
 
 		if ( ftruncate( fileno(preferenceFile), 0 ) != 0 )
 		{
-		#if 0
-			if(openLocal == 1)
-			{
-				PrefClosePreferenceFile(preferenceFile);
-				openLocal = 0;
-			}
-		#endif
 			PrefClosePreferenceFile(tmpFile);
 			return (SD_STATUS_BAD);
 		}
@@ -237,16 +232,4 @@ SD_INT32 CoreSetNetAgentPropertyV2(SD_UINT8 *configKey, SD_UINT8 *configValue )
 	}
 
 	return (retValue);
-}
-
-int main()
-{
-	char test[512] = {0};
-	CoreGetNetAgentPropertyV2("wifi.scanning.interface", test);
-	printf("test=%s\n",test);
-	strcpy(test, "wlan0");
-	CoreSetNetAgentPropertyV2("wifi.scanning.interface", test );
-	CoreGetNetAgentPropertyV2("wifi.scanning.interface", test);
-	printf("test=%s\n",test);
-	return 0;
 }

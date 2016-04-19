@@ -12,7 +12,7 @@
 #define MAX_FILE_RW_BUFFER_SIZE     1024
 
 /** Default preference file name */
-#define PREFERENCE_FILE_NAME "wifiagent.properties"
+#define PREFERENCE_FILE_NAME (unsigned char*)"wifiagent.properties"
 
 /** Polling interval key in preference file */
 #define PREFERENCE_WIFI_INTERFACE "wifi.scanning.interface"
@@ -41,7 +41,7 @@
 #define SD_UINT32 unsigned long
 #endif
 
-
+#if 1
 /** Open a preference file for manipulation */
 FILE        *PrefOpenPreferenceFile(SD_UINT8 *preferenceFileName);
 /** Close a previously opened preference file */
@@ -50,6 +50,10 @@ int    PrefClosePreferenceFile(FILE *preferenceFile);
 char    *PrefGetProperty(FILE *preferenceFile, char *key);
 /** Assign a property value to a preference file */
 int    PrefSetProperty(FILE *preferenceFile, char *key, char *value);
+#endif
+
+SD_INT32 CoreSetNetAgentPropertyV2(SD_UINT8 *configKey, SD_UINT8 *configValue);
+SD_INT32 CoreGetNetAgentPropertyV2(SD_UINT8 *configKey, SD_UINT8 *configValue);
 
 #define PLAT_STR(x)     ((char *)x)
 #define SD_STATUS_GOOD 0
