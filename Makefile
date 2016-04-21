@@ -4,16 +4,16 @@
 # Run 'make clean' to remove compiled files.
 
 #LIB source files.
-LIBSRC =  prefs.c preftest.c
+LIBSRC =  config_rw_lib.c config_rw_test.c
 
 LIBOBJ = $(LIBSRC:.c=.o)
 
-LIBOUT = cfgrdwr
+LIBOUT = libconfigrw
 
 #APP source files.
-APPSRC =  preftest.c
+APPSRC =  config_rw_test.c
 APPOBJ = $(APPSRC:.c=.o)
-APPOUT = preftest
+APPOUT = config_rw_test
 
 # include directories
 INCLUDES = -I. -I/usr/local/include

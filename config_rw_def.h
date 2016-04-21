@@ -1,5 +1,5 @@
-#ifndef __PREFS_H
-#define __PREFS_H
+#ifndef __CONFIG_RW_DEF_H
+#define __CONFIG_RW_DEF_H
 
 /* ANSI Includes */
 #include <stdio.h>
@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 /** Default buffer manipulation size used during file read/write operations */
 #define MAX_FILE_RW_BUFFER_SIZE     1024
@@ -16,6 +18,10 @@
 
 /** Polling interval key in preference file */
 #define PREFERENCE_WIFI_INTERFACE "wifi.scanning.interface"
+
+#define PLAT_STR(x)     ((char *)x)
+#define SD_STATUS_GOOD 0
+#define SD_STATUS_BAD -1
 
 #ifndef SD_INT8
 #define SD_INT8 char
@@ -41,22 +47,13 @@
 #define SD_UINT32 unsigned long
 #endif
 
-#if 1
 /** Open a preference file for manipulation */
-FILE        *PrefOpenPreferenceFile(SD_UINT8 *preferenceFileName);
+FILE        *CfgFileOpen(SD_UINT8 *preferenceFileName);
 /** Close a previously opened preference file */
-int    PrefClosePreferenceFile(FILE *preferenceFile);
+SD_INT32   CfgFileClose(FILE *preferenceFile);
 /** Retrieve a property value from a preference file */
-char    *PrefGetProperty(FILE *preferenceFile, char *key);
+SD_UINT8   *CfgFileGetProperty(FILE *preferenceFile, SD_UINT8 *key);
 /** Assign a property value to a preference file */
-int    PrefSetProperty(FILE *preferenceFile, char *key, char *value);
+SD_INT32 CfgFileSetProperty(FILE *preferenceFile, SD_UINT8 *key, SD_UINT8 *value);
+
 #endif
-
-SD_INT32 CoreSetNetAgentPropertyV2(SD_UINT8 *configKey, SD_UINT8 *configValue);
-SD_INT32 CoreGetNetAgentPropertyV2(SD_UINT8 *configKey, SD_UINT8 *configValue);
-
-#define PLAT_STR(x)     ((char *)x)
-#define SD_STATUS_GOOD 0
-#define SD_STATUS_BAD -1
-
-#endif                                  /* #define __PREFS_H */
